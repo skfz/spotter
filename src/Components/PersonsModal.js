@@ -30,7 +30,7 @@ export default function PersonsModal({ persons, setPersons }) {
     }
 
     return <>
-        <Button aria-describedby={id} variant="outlined" onClick={(e) => setAnchorEl(e.currentTarget)} >Persons</Button>
+        <Button size="large" sx={{ width: '100%', padding: '14px' }} aria-describedby={id} variant="outlined" onClick={(e) => setAnchorEl(e.currentTarget)} >Persons</Button>
         <Popover id={id} open={open} anchorEl={anchorEl} onClose={() => setAnchorEl(null)} anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
@@ -45,7 +45,7 @@ export default function PersonsModal({ persons, setPersons }) {
                             <Typography>{label}</Typography>
                         </Box>
                         <BoxInner>
-                            <CounterButton disabled={persons[type] == min} onClick={() => updateCount(type, -1)}>-</CounterButton>
+                            <CounterButton disabled={persons[type] === min} onClick={() => updateCount(type, -1)}>-</CounterButton>
                             <Typography sx={{ padding: 1 }}>{persons[type]}</Typography>
                             <CounterButton onClick={() => updateCount(type, 1)}>+</CounterButton>
                         </BoxInner>

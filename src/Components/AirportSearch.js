@@ -44,7 +44,6 @@ export default function AirportSearch ({ location, setLocation, label }) {
     }, [inputValue])
 
     return <Autocomplete
-            sx={{ width: '24%' }}
             options={options}
             isOptionEqualToValue={(option, value) => option.skyId === value.skyId}
             value={location}
@@ -59,7 +58,7 @@ export default function AirportSearch ({ location, setLocation, label }) {
                 />      
             )}
             renderOption={(props, option) => (
-                <Box component="li" {...props} key={option.id} sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Box component="li" {...props} key={option.skyId} sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <Typography variant="body1" fontWeight="bold">{option.title}</Typography>
                 </Box>
             )}
