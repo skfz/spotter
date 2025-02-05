@@ -1,6 +1,7 @@
 import { Container, Typography, Button, Autocomplete, Box, Select, MenuItem, FormGroup } from "@mui/material";
 import { useState } from "react";
 import PersonsModal from "./Components/PersonsModal";
+import AirportSearch from "./Components/AirportSearch";
 
 function App() {
 
@@ -11,7 +12,9 @@ function App() {
         children: 0,
         infants_in_seat: 0,
         infants_on_lap: 0
-    })
+    });
+    const [origin, setOrigin] = useState(null);
+    const [destination, setDestination] = useState(null);
 
     return (
         <Container maxWidth="lg" sx={{ backgroundColor: "#fff", marginTop: "50px", textAlign: "center", padding: "20px" }}>
@@ -36,6 +39,10 @@ function App() {
                                 <MenuItem value="Business">Business</MenuItem>
                                 <MenuItem value="First">First</MenuItem>
                         </Select>
+                    </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 8, marginTop: 2}}>
+                        <AirportSearch location={origin} setLocation={setOrigin} label="Origin" />
+                        <AirportSearch location={destination} setLocation={setDestination} label="Destination" />
                     </Box>
                 </FormGroup>
             </Box>
