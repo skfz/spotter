@@ -1,4 +1,4 @@
-import { Avatar, Box, Grid2, TableContainer, TableBody, TableRow, Typography, Paper, TableHead, TableCell, Table } from "@mui/material";
+import { Avatar, TableContainer, TableBody, TableRow, Typography, Paper, TableCell, Table } from "@mui/material";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import duration from "dayjs/plugin/duration";
@@ -49,7 +49,7 @@ export default function FlightList({ flightsData }) {
                                 <Typography>{flight.legs[0].stopCount === 0 ? 'Nonstop' : `${flight.legs[0].stopCount} stop`}</Typography>
                             </TableCell>
                         </TableRow>
-                        <TableRow>
+                        {flight?.legs[1] && <><TableRow>
                             <TableCell colSpan={3}>
                                 <Typography fontWeight="bold">{flight.legs[1].origin.city} to {flight.legs[1].destination.city}</Typography>
                             </TableCell>
@@ -66,7 +66,7 @@ export default function FlightList({ flightsData }) {
                             <TableCell align="center">
                                 <Typography>{flight.legs[1].stopCount === 0 ? 'Nonstop' : `${flight.legs[1].stopCount} stop`}</Typography>
                             </TableCell>
-                    </TableRow>
+                    </TableRow></>}
                     </TableBody>
                 </Table>
                 </TableContainer>

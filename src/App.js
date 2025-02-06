@@ -1,4 +1,4 @@
-import { Container, Typography, Button, Autocomplete, Box, Select, MenuItem, FormGroup, Grid2 } from "@mui/material";
+import { Container, Typography, Button, Box, Select, MenuItem, Grid2 } from "@mui/material";
 import { useState } from "react";
 import PersonsModal from "./Components/PersonsModal";
 import AirportSearch from "./Components/AirportSearch";
@@ -9,7 +9,7 @@ import FlightList from "./Components/FlightList";
 
 function App() {
 
-    const [tripType, setTripType] = useState('Round Trip');
+    const [tripType, setTripType] = useState('round_trip');
     const [seating, setSeating] = useState('economy');
     const [persons, setPersons] = useState({
         adults: 1,
@@ -21,10 +21,14 @@ function App() {
     const [fromDate, setFromDate] = useState(dayjs());
     const [toDate, setToDate] = useState(dayjs());
     const [flightsData, setFlightsData] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const handleFlightSearch = async() => {
+        
+        setLoading(true);
+        
         const from_date = dayjs(fromDate).format('YYYY-MM-DD');
-        const to_date = dayjs(toDate).format('YYYY-MM-DD');
+        const to_date = (tripType === 'round_trip') ? dayjs(toDate).format('YYYY-MM-DD') : '';
         const url = `https://sky-scrapper.p.rapidapi.com/api/v2/flights/searchFlights?originSkyId=${origin.skyId}&destinationSkyId=${destination.skyId}
         &originEntityId=${origin.entityId}&destinationEntityId=${destination.entityId}&date=${from_date}&returnDate=${to_date}&cabinClass=${seating}&adults=${persons.adults}
         &childrens=${persons.children}&infants=${persons.infants}&sortBy=best&currency=USD&market=en-US&countryCode=US`;
@@ -44,6 +48,8 @@ function App() {
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -58,8 +64,8 @@ function App() {
                             id="sp-trip-type"
                             value={tripType}
                             onChange={(e) => setTripType(e.target.value)}>
-                                <MenuItem value="Round Trip">Round Trip</MenuItem>
-                                <MenuItem value="One Way">One Way</MenuItem>
+                                <MenuItem value="round_trip">Round Trip</MenuItem>
+                                <MenuItem value="one_way">One Way</MenuItem>
                         </Select>
                     </Grid2>
                     <Grid2 size={{md: 2, xs: 12}}>
@@ -100,7 +106,7 @@ function App() {
                                 }} />
                         </Grid2>
                         <Grid2 size={{md:3, xs: 12}}>
-                            <DatePicker minDate={fromDate} label="Return Date" value={toDate} onChange={(newDate) => setToDate(newDate)} 
+                            <DatePicker disabled={tripType === 'one_way'} minDate={fromDate} label="Return Date" value={toDate} onChange={(newDate) => setToDate(newDate)} 
                                 slotProps={{
                                     textField: {
                                     helperText: 'MM-DD-YYYY',
@@ -111,7 +117,7 @@ function App() {
                     
                 </Grid2>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '20px' }}>
-                    <Button variant="contained" disabled={origin === null || destination == null} size="large" onClick={handleFlightSearch}>Submit</Button>
+                    <Button loading={loading} variant="contained" disabled={origin === null || destination == null} size="large" onClick={handleFlightSearch}>Submit</Button>
                 </Box>
                 
             </Box>
